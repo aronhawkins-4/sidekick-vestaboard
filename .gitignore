@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# env files
+.env
+
+# misc
+sidekick-creative-agency-def1ffc42f71.json
