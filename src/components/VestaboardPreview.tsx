@@ -5,12 +5,12 @@ import React, { createRef, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { COLUMN_NUMBER, ROW_NUMBER, TILE_NUMBER } from '../app/utils';
-import { postVestaMessage } from '@/app/api/vestaboard/postVestaMessage';
+import { postVestaMessage } from '@/app/server/vestaboard/postVestaMessage';
 import { convertToCharCode } from '@/app/lib/convertToCharCode';
 import { IBoard } from 'vestaboard-api/lib/cjs/VB-Original-Types';
 import { Color, ColorSwatch } from './ColorSwatch';
 import { VestaboardTile } from './VestaboardTile';
-import { getEvents } from '@/app/api/google-calendar/getEvents';
+import { getEvents } from '@/app/server/google-calendar/getEvents';
 
 export const VestaboardPreview = () => {
   const [inputRefsArray] = useState(() => Array.from({ length: TILE_NUMBER }, () => createRef<HTMLInputElement>()));

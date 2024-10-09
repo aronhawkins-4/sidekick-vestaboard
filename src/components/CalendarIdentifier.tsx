@@ -1,4 +1,4 @@
-import { createJwtClient } from '@/app/api/google-calendar/createJwtClient';
+import { createJwtClient } from '@/app/server/google-calendar/createJwtClient';
 import { google } from 'googleapis';
 
 export const CalendarIdentifier = async () => {

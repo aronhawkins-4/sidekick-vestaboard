@@ -1,3 +1,4 @@
+'use server';
 import { google } from 'googleapis';
 import { createJwtClient } from './createJwtClient';
 
@@ -16,6 +17,7 @@ export async function getEvents() {
     calendarId: process.env.GOOGLE_CALENDAR_ID,
     maxResults: 10,
   });
+
   const items = events.data.items;
   return items;
 }

@@ -1,17 +1,26 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { calendar_v3 } from 'googleapis';
 import { Separator } from './ui/separator';
+// import { getEvents } from '@/app/server/google-calendar/getEvents';
 
 interface EventsDialogProps {
-  events: calendar_v3.Schema$Event[] | undefined;
+  events?: calendar_v3.Schema$Event[] | undefined;
 }
-export const EventsDialog: React.FC<EventsDialogProps> = ({ events }) => {
-  if (!events) {
-    return;
-  }
+export const EventsDialog: React.FC<EventsDialogProps> = () => {
+  // if (!events) {
+  //   return;
+  // }
+  // const [events, setEvents] = useState<calendar_v3.Schema$Event[] | undefined>([]);
+
+  // useEffect(() => {
+  //   getEvents().then((res) => {
+  //     setEvents(res);
+  //   });
+  // }, []);
+  if (!events) return;
   return (
     <Dialog>
       <DialogTrigger>
