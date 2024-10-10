@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { COLUMN_NUMBER, ROW_NUMBER, TILE_NUMBER } from '../app/utils';
 import { postVestaMessage } from '@/app/server/vestaboard/postVestaMessage';
-import { convertToCharCode } from '@/app/lib/convertToCharCode';
+import { convertCharToCharCode } from '@/app/lib/convertCharToCharCode';
 import { IBoard } from 'vestaboard-api/lib/cjs/VB-Original-Types';
 import { Color, ColorSwatch } from './ColorSwatch';
 import { VestaboardTile } from './VestaboardTile';

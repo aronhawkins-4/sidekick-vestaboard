@@ -1,14 +1,9 @@
-'use server';
 import { google } from 'googleapis';
 import { createJwtClient } from './createJwtClient';
 
-/**
- * Lists the next 10 events on the user's primary calendar.
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-export async function getEvents() {
+export const getEvents = async () => {
   const jwtClient = await createJwtClient();
-
+  console.log(jwtClient);
   const calendar = google.calendar({
     version: 'v3',
     auth: jwtClient,
@@ -19,5 +14,6 @@ export async function getEvents() {
   });
 
   const items = events.data.items;
+  console.log(items);
   return items;
-}
+};

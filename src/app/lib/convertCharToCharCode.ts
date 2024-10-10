@@ -1,4 +1,4 @@
-export const convertToCharCode = (input: string) => {
+export const convertCharToCharCode = (input: string) => {
   let charCode;
 
   switch (input.toUpperCase()) {

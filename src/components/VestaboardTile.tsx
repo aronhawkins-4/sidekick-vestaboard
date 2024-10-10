@@ -1,11 +1,11 @@
 'use client';
-import { convertToCharCode } from '@/app/lib/convertToCharCode';
 import { COLUMN_NUMBER, TILE_NUMBER } from '@/app/utils';
 
 import { Input } from './ui/input';
 import Image from 'next/image';
 import { Color } from './ColorSwatch';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { convertCharToCharCode } from '@/app/lib/convertCharToCharCode';
 
 interface VestaboardTileProps {
   index: number;
@@ -17,10 +17,16 @@ interface VestaboardTileProps {
     charCode: number;
   } | null;
   isDragging: boolean;
+  defaultValue?: string;
 }
-export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef, setCurrentIndex, onUpdate, color, isDragging }) => {
+export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef, setCurrentIndex, onUpdate, color, isDragging, defaultValue }) => {
   const [bgColor, setBgColor] = useState('transparent');
   const [disabled, setDisabled] = useState(false);
+  useEffect(() => {
+    if (defaultValue && inputRef.current) {
+      inputRef.current.value = defaultValue;
+    }
+  }, []);
 
   return (
     <div className='relative mr-[1%]'>
@@ -65,7 +71,7 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
                   break;
                 default:
                   inputRef.current.value = e.key[0];
-                  onUpdate(convertToCharCode(e.key[0]), index);
+                  onUpdate(convertCharToCharCode(e.key[0]), index);
                   setCurrentIndex(index + 1);
                   break;
               }

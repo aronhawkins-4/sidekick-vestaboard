@@ -40,3 +40,7 @@ next-env.d.ts
 
 # misc
 sidekick-creative-agency-0908b814d974.json
+sidekick-creative-agency-1814938e3232.json
+
+# database
+supabase*
