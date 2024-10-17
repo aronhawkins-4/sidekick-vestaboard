@@ -1,4 +1,4 @@
-export const convertCharToCharCode = (input: number) => {
+export const convertCharCodeToChar = (input: number) => {
   let char;
 
   switch (input) {

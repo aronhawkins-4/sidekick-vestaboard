@@ -1,6 +1,5 @@
 export const convertCharToCharCode = (input: string) => {
   let charCode;
-
   switch (input.toUpperCase()) {
     case '':
       charCode = 0;

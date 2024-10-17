@@ -9,11 +9,14 @@ import { postVestaMessage } from '@/app/server/vestaboard/postVestaMessage';
 import { IBoard } from 'vestaboard-api/lib/cjs/VB-Original-Types';
 import { scheduleVestaMessage } from '@/app/server/vestaboard/scheduleVestaMessage';
 import { useToast } from '@/hooks/use-toast';
+import { convertCharCodeToChar } from '@/app/lib/convertCharCodeToChar';
 
 interface EventsDialogProps {
   events: calendar_v3.Schema$Event[] | undefined;
+  setFlatCharArray: React.Dispatch<React.SetStateAction<string[]>>;
+  handleUpdate: (charCode: number, char: string, index: number) => void;
 }
-export const EventsDialog: React.FC<EventsDialogProps> = ({ events }) => {
+export const EventsDialog: React.FC<EventsDialogProps> = ({ events, handleUpdate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const sendMessage = async (event: calendar_v3.Schema$Event) => {
@@ -61,10 +64,34 @@ export const EventsDialog: React.FC<EventsDialogProps> = ({ events }) => {
       });
     }
   };
+
+  const previewMessage = async (event: calendar_v3.Schema$Event) => {
+    const messageArray = vbml.parse({
+      components: [
+        {
+          style: {
+            justify: Justify.center,
+            align: Align.center,
+          },
+          template: event.summary ?? '',
+        },
+      ],
+    });
+    const flatCharChodeArray = messageArray.flat(6);
+    const flatCharArray = flatCharChodeArray.map((charCode) => {
+      return convertCharCodeToChar(charCode);
+    });
+    flatCharArray.forEach((char, index) => {
+      handleUpdate(flatCharChodeArray[index], flatCharArray[index], index);
+    });
+    // setFlatCharArray(flatCharArray);
+    setIsOpen(false);
+  };
+
   if (!events) return;
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Button variant={'secondary'} onClick={() => setIsOpen(true)}>
+      <Button variant={'secondary'} onClick={() => setIsOpen(true)} className=''>
         Schedule Message
       </Button>
       <DialogContent>
@@ -84,7 +111,10 @@ export const EventsDialog: React.FC<EventsDialogProps> = ({ events }) => {
                       Schedule
                     </Button>
                     <Button className='mt-4' onClick={() => sendMessage(event)}>
-                      Push
+                      Post
+                    </Button>
+                    <Button className='mt-4' onClick={() => previewMessage(event)}>
+                      Preview
                     </Button>
                   </div>
                 </div>

@@ -11,26 +11,26 @@ interface VestaboardTileProps {
   index: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   inputRef: React.MutableRefObject<HTMLInputElement | null>;
-  onUpdate: (value: number, index: number) => void;
+  onUpdate: (charCode: number, char: string, index: number) => void;
   color: {
     name: Color;
     charCode: number;
   } | null;
   isDragging: boolean;
-  defaultValue?: string;
+  value: string;
 }
-export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef, setCurrentIndex, onUpdate, color, isDragging, defaultValue }) => {
+export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef, setCurrentIndex, onUpdate, color, isDragging, value }) => {
   const [bgColor, setBgColor] = useState('transparent');
   const [disabled, setDisabled] = useState(false);
   useEffect(() => {
-    if (defaultValue && inputRef.current) {
-      inputRef.current.value = defaultValue;
+    if (value !== ' ') {
+      setBgColor('transparent');
+      setDisabled(false);
     }
-  }, []);
-
+  }, [value]);
   return (
-    <div className='relative mr-[1%]'>
-      <Image fill alt='' src={'/vestaboard-tile.png'} objectFit='contain' className='z-0' />
+    <div className='relative h-full mr-[1%] overflow-hidden' style={{ backgroundColor: bgColor }}>
+      <Image fill alt='' src={'/vestaboard-tile.png'} objectFit='cover' className='z-0' />
       <Input
         ref={inputRef}
         onKeyUp={(e) => {
@@ -39,8 +39,7 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
               switch (e.key) {
                 case 'Backspace':
                 case 'Delete':
-                  inputRef.current.value = '';
-                  onUpdate(0, index);
+                  onUpdate(0, '', index);
                   setCurrentIndex(index - 1);
                   break;
                 case 'Enter':
@@ -70,8 +69,7 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
                   }
                   break;
                 default:
-                  inputRef.current.value = e.key[0];
-                  onUpdate(convertCharToCharCode(e.key[0]), index);
+                  onUpdate(convertCharToCharCode(e.key[0]), e.key[0], index);
                   setCurrentIndex(index + 1);
                   break;
               }
@@ -94,83 +92,85 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
           if (color) {
             switch (color.name) {
               case Color.RED:
-                setBgColor('red');
+                setBgColor('#da291c');
                 break;
               case Color.ORANGE:
-                setBgColor('orange');
+                setBgColor('#ff7500');
                 break;
               case Color.YELLOW:
-                setBgColor('yellow');
+                setBgColor('#ffb81c');
                 break;
               case Color.GREEN:
-                setBgColor('green');
+                setBgColor('#009a44');
                 break;
               case Color.BLUE:
-                setBgColor('blue');
+                setBgColor('#0084d5');
                 break;
               case Color.VIOLET:
-                setBgColor('violet');
+                setBgColor('#70248a');
                 break;
               case Color.WHITE:
-                setBgColor('white');
+                setBgColor('#ffffff');
                 break;
               case Color.BLACK:
-                setBgColor('black');
+                setBgColor('#000000');
                 break;
               default:
                 setBgColor('transparent');
                 break;
             }
 
-            onUpdate(color.charCode, index);
+            onUpdate(color.charCode, ' ', index);
             setDisabled(true);
             if (inputRef.current) {
-              inputRef.current.value = '';
               inputRef.current?.blur();
             }
           } else {
             if (bgColor && bgColor !== 'transparent' && inputRef.current) {
-              inputRef.current.value = '';
               setDisabled(false);
+              setBgColor('transparent');
             }
-            setBgColor('transparent');
           }
         }}
+        value={value}
+        onChange={(e) => {
+          e.preventDefault();
+        }}
+        maxLength={1}
         className='w-full h-full bg-transparent border-none text-center text-white text-xl rounded-none p-0 ring-offset-transparent focus-visible:ring-none z-10 relative font-[family-name:var(--font-vestaboard)] vestaboard-tile'
-        style={{ backgroundColor: bgColor }}
         onMouseEnter={() => {
           if (isDragging && color) {
             switch (color.name) {
               case Color.RED:
-                setBgColor('red');
+                setBgColor('#da291c');
                 setDisabled(true);
                 break;
               case Color.ORANGE:
-                setBgColor('orange');
+                setBgColor('#ff7500');
                 setDisabled(true);
                 break;
               case Color.YELLOW:
-                setBgColor('yellow');
+                setBgColor('#ffb81c');
                 setDisabled(true);
                 break;
               case Color.GREEN:
-                setBgColor('green');
+                setBgColor('#009a44');
                 setDisabled(true);
                 break;
               case Color.BLUE:
-                setBgColor('blue');
+                setBgColor('#0084d5');
                 setDisabled(true);
                 break;
               case Color.VIOLET:
-                setBgColor('violet');
+                setBgColor('#70248a');
                 setDisabled(true);
                 break;
               case Color.WHITE:
-                setBgColor('white');
+                setBgColor('#ffffff');
                 setDisabled(true);
                 break;
               case Color.BLACK:
-                setBgColor('black');
+                setBgColor('#000000');
                 setDisabled(true);
                 break;
               case Color.ERASE:
@@ -182,11 +182,7 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
                 setDisabled(false);
                 break;
             }
-            onUpdate(color.charCode, index);
-
-            if (inputRef.current) {
-              inputRef.current.value = '';
-            }
+            onUpdate(color.charCode, ' ', index);
           }
         }}
       />
