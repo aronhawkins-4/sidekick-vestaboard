@@ -25,7 +25,7 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
   useEffect(() => {
     if (value !== ' ') {
       setBgColor('transparent');
-      setDisabled(false);
+      // setDisabled(false);
     }
   }, [value]);
   return (
@@ -121,13 +121,15 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
             }
 
             onUpdate(color.charCode, ' ', index);
-            setDisabled(true);
+            if (color.name !== Color.ERASE) {
+              // setDisabled(true);
+            }
             if (inputRef.current) {
               inputRef.current?.blur();
             }
           } else {
             if (bgColor && bgColor !== 'transparent' && inputRef.current) {
-              setDisabled(false);
+              // setDisabled(false);
               setBgColor('transparent');
             }
           }
@@ -143,43 +145,43 @@ export const VestaboardTile: React.FC<VestaboardTileProps> = ({ index, inputRef,
             switch (color.name) {
               case Color.RED:
                 setBgColor('#da291c');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.ORANGE:
                 setBgColor('#ff7500');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.YELLOW:
                 setBgColor('#ffb81c');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.GREEN:
                 setBgColor('#009a44');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.BLUE:
                 setBgColor('#0084d5');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.VIOLET:
                 setBgColor('#70248a');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.WHITE:
                 setBgColor('#ffffff');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.BLACK:
                 setBgColor('#000000');
-                setDisabled(true);
+                // setDisabled(true);
                 break;
               case Color.ERASE:
                 setBgColor('transparent');
-                setDisabled(false);
+                // setDisabled(false);
                 break;
               default:
                 setBgColor('transparent');
-                setDisabled(false);
+                // setDisabled(false);
                 break;
             }
             onUpdate(color.charCode, ' ', index);

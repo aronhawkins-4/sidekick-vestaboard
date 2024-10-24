@@ -94,7 +94,7 @@ export const EventsDialog: React.FC<EventsDialogProps> = ({ events, handleUpdate
       <Button variant={'secondary'} onClick={() => setIsOpen(true)} className=''>
         Schedule Message
       </Button>
-      <DialogContent>
+      <DialogContent className='max-h-screen overflow-scroll'>
         <DialogHeader>
           <DialogTitle>Events</DialogTitle>
         </DialogHeader>

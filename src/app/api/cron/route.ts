@@ -16,7 +16,7 @@ export async function GET() {
     }
     const messageToPost = data.filter((message) => {
       const postDateTime = new Date(message.post_dateTime!);
-      return isWithinFiveMinutes(postDateTime, nowTime);
+      return isWithinOneHour(postDateTime, nowTime);
     })[0];
     if (messageToPost) {
       const vesta = new VestaRW({ apiReadWriteKey: process.env.VESTABOARD_READ_WRITE_KEY || '', mode: VestaboardControlMode.RW });
@@ -43,7 +43,18 @@ export async function GET() {
   }
 }
 
-const isWithinFiveMinutes = (targetTime: Date, currentTime: Date) => {
+// const isWithinFiveMinutes = (targetTime: Date, currentTime: Date) => {
+//   // Convert times to milliseconds
+//   const targetTimeMs = targetTime.getTime();
+//   const currentTimeMs = currentTime.getTime();
+//   console.log(targetTimeMs, currentTimeMs);
+//   // Calculate the difference in milliseconds
+//   const timeDifferenceMs = targetTimeMs - currentTimeMs;
+//   console.log(timeDifferenceMs);
+//   // Check if the difference is within 5 minutes 30 seconds (330,000 milliseconds)
+//   return timeDifferenceMs >= 0 && timeDifferenceMs <= 330000;
+// };
+const isWithinOneHour = (targetTime: Date, currentTime: Date) => {
   // Convert times to milliseconds
   const targetTimeMs = targetTime.getTime();
   const currentTimeMs = currentTime.getTime();
@@ -51,8 +62,8 @@ const isWithinFiveMinutes = (targetTime: Date, currentTime: Date) => {
   // Calculate the difference in milliseconds
   const timeDifferenceMs = targetTimeMs - currentTimeMs;
   console.log(timeDifferenceMs);
-  // Check if the difference is within 5 minutes 30 seconds (330,000 milliseconds)
-  return timeDifferenceMs >= 0 && timeDifferenceMs <= 330000;
+  // Check if the difference is within 1 hour 30 seconds (3,630,000 milliseconds)
+  return timeDifferenceMs >= 0 && timeDifferenceMs <= 3630000;
 };
 
 function deepEqual(arr1: number[] | number[][], arr2: number[] | number[][]) {
